@@ -1,0 +1,64 @@
+body {
+  margin-top: 6rem;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: initial;
+  text-decoration: none;
+}
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
+  color: initial;
+}
+
+.navbar {
+    display: block;
+    width: 100%;
+    height: 6rem;
+    background: #fff;
+    z-index: 99;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.navbar.has-docked-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.navbar-list {
+ list-style: none;
+ margin-bottom: 0;
+}
+
+.navbar-item {
+  position: relative;
+  float: left;
+  margin-bottom: 0;
+}
+
+.navbar-link {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .2rem;
+  margin-right: 35px;
+  text-decoration: none;
+  line-height: 6rem;
+  color: #222;
+}
+
+.navbar-link.logo {
+  margin-right: 35px;
+}
+
+.navbar-link.logo img {
+  content: url(../images/elm_logo.svg);
+  padding: 1rem;
+  height: 4rem;
+}
+
+section.post-excerpt {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
