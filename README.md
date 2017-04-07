@@ -1,15 +1,31 @@
 # Elm Blog
 ## Milestones
 
+### `v1.0`
+As a blog author...
+- ❌ I want to be able to change the status of posts and pages between published and unpublished.
+
+### `v0.8`
+As a blog author...
+- ❌ I want to be able to configure the blog header menu items (text and link) from the admin zone.
+- ❌ I want to be able to configure the blog header logo from the admin zone.
+
+### `v0.7`
+As a blog author...
+- ❌ I want to be able to create, edit, delete pages from the admin zone.
+
+### `v0.6`
+As a visitor...
+- ❌ I want to read the author's about page.
+- ❌ I want an archive page with a list post links grouped by year and month.
+
 ### `v0.5`
 As a blog author...
-- ❌ I want to be able to create posts from the protected admin zone
-- ❌ I want to be able to edit posts from the protected admin zone
-- ❌ I want to be able to delete posts from the protected admin zone
+- ❌ I want to be able to create, edit, delete posts from the admin zone.
 
 ### `v0.4`
 As a blog author...
-- ❌ I want to be able to access a protected admin zone
+- ❌ I want to be able to access a password protected admin zone.
 
 ### `v0.3`
 As a visitor...
