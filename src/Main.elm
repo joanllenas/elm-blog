@@ -2,10 +2,11 @@ module Main exposing (..)
 
 import Routing
 import Navigation exposing (Location)
-import Models exposing (..)
-import Msgs exposing (..)
-import Update exposing (..)
-import View exposing (..)
+import Models exposing (Model)
+import Msgs exposing (Msg)
+import Commands
+import Update exposing (update)
+import View exposing (view)
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -14,16 +15,12 @@ init location =
         currentRoute =
             Routing.parseLocation location
     in
-        ( initialModel currentRoute, Cmd.none )
+        ( Models.initialModel currentRoute, Commands.fetchPosts )
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
-
-
-
----- PROGRAM ----
 
 
 main : Program Never Model Msg

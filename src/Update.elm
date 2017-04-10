@@ -15,5 +15,8 @@ update msg model =
             in
                 ( { model | route = newRoute }, Cmd.none )
 
+        Msgs.OnFetchPosts response ->
+            ( { model | posts = response }, Cmd.none )
+
         Msgs.NoOp ->
             ( model, Cmd.none )
