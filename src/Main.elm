@@ -15,7 +15,7 @@ init location =
         currentRoute =
             Routing.parseLocation location
     in
-        ( Models.initialModel currentRoute, Commands.fetchPosts )
+        ( Models.initialModel currentRoute, Commands.fetchLatestsPosts )
 
 
 subscriptions : Model -> Sub Msg

@@ -5,6 +5,8 @@ import Html.Attributes exposing (class, href)
 import RemoteData exposing (..)
 import Msgs exposing (Msg)
 import Models exposing (Post)
+import Maybe
+import Utils exposing (humanizeDate)
 
 
 createPostEntry : Post -> Html Msg
@@ -17,10 +19,17 @@ createPostEntry post =
                         [ text post.title ]
                     ]
                 ]
+            , div [ class "twelve columns" ]
+                [ p [ class "meta" ]
+                    [ text (humanizeDate (Maybe.Just post.created_at))
+                    ]
+                ]
             ]
         , div [ class "row" ]
             [ div [ class "twelve columns" ]
-                [ text post.content ]
+                [ p []
+                    [ text post.content ]
+                ]
             ]
         ]
 
@@ -35,7 +44,7 @@ view response =
             text "Loading..."
 
         RemoteData.Success posts ->
-            div [] (List.map createPostEntry posts)
+            div [ class "content-container" ] (List.map createPostEntry posts)
 
         RemoteData.Failure error ->
             text (toString error)

@@ -1,6 +1,7 @@
 module Models exposing (..)
 
 import RemoteData exposing (WebData)
+import Date
 
 
 type alias PostId =
@@ -9,6 +10,7 @@ type alias PostId =
 
 type alias Post =
     { id : PostId
+    , created_at : Date.Date
     , title : String
     , content : String
     }

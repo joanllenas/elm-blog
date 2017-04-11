@@ -1,0 +1,7 @@
+{
+    "latestPostsFile": "data/latest.json",
+    "archiveFile": "data/archive.json",
+    "postFilePattern": "data/{yyyy}/{mm}/{timestamp}.json",
+    "githubReposApiUrl": "https://api.github.com/repos",
+    "githubRepoUrl": "joanllenas/7guis-elm"
+}

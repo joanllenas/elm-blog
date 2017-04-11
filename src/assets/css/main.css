@@ -58,7 +58,15 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
   height: 4rem;
 }
 
-section.post-excerpt {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+.content-container {
+  padding-top: 25px;
+}
+
+section.post-excerpt h1 {
+  border-bottom: 1px solid #222;
+  margin-bottom: 0;
+}
+
+section.post-excerpt .meta {
+  color: #222;
 }

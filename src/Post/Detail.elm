@@ -5,6 +5,7 @@ import Html.Attributes exposing (class, href)
 import List.Extra exposing (find)
 import RemoteData exposing (..)
 import Msgs exposing (Msg)
+import Utils exposing (stringToDate)
 import Models exposing (Post, PostId)
 
 
@@ -12,7 +13,7 @@ createPostDetailPage : Maybe Post -> Html Msg
 createPostDetailPage post =
     case post of
         Nothing ->
-            createPostDetail (Post "" "Post not found" "The requested post does not exists.")
+            createPostDetail (Post "" (stringToDate "") "Post not found" "The requested post does not exists.")
 
         Just post ->
             createPostDetail post
