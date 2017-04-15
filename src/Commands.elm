@@ -1,6 +1,8 @@
 module Commands exposing (fetchLatestsPosts)
 
 import Http
+import Time
+import Task
 import RemoteData
 import Msgs exposing (Msg)
 import Decoders exposing (postListDecoder)
@@ -15,4 +17,5 @@ fetchLatestsPosts =
 
 fetchLatestsPostsUrl : String
 fetchLatestsPostsUrl =
-    "data/latest.json"
+    {- Time.now `andThen` (\time -> "data/latest.json?" ++ time) -}
+    "data/latest.json?"

@@ -12,8 +12,11 @@ update msg model =
             let
                 newRoute =
                     parseLocation location
+
+                routeCmd =
+                    Routing.getRouteInitCmd newRoute
             in
-                ( { model | route = newRoute }, Cmd.none )
+                ( { model | route = newRoute }, routeCmd )
 
         Msgs.OnFetchPosts response ->
             ( { model | posts = response }, Cmd.none )

@@ -4,7 +4,6 @@ import Routing
 import Navigation exposing (Location)
 import Models exposing (Model)
 import Msgs exposing (Msg)
-import Commands
 import Update exposing (update)
 import View exposing (view)
 
@@ -14,8 +13,11 @@ init location =
     let
         currentRoute =
             Routing.parseLocation location
+
+        routeCmd =
+            Routing.getRouteInitCmd currentRoute
     in
-        ( Models.initialModel currentRoute, Commands.fetchLatestsPosts )
+        ( Models.initialModel currentRoute, routeCmd )
 
 
 subscriptions : Model -> Sub Msg

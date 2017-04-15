@@ -3,6 +3,8 @@ module Routing exposing (..)
 import Navigation exposing (Location)
 import Models exposing (PostId, Route(..))
 import UrlParser exposing (..)
+import Commands exposing (..)
+import Msgs exposing (Msg)
 
 
 matchers : Parser (Route -> a) a
@@ -22,3 +24,16 @@ parseLocation location =
 
         Nothing ->
             NotFoundRoute
+
+
+getRouteInitCmd : Route -> Cmd Msg
+getRouteInitCmd route =
+    case route of
+        PostListRoute ->
+            Commands.fetchLatestsPosts
+
+        PostDetailRoute postId ->
+            Commands.fetchLatestsPosts
+
+        NotFoundRoute ->
+            Cmd.none
