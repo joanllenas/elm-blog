@@ -57,7 +57,8 @@ module.exports = {
               verbose: true,
               warn: true,
               debug: true,
-              pathToMake: paths.elmMake
+              pathToMake: paths.elmMake,
+              forceWatch: true
             }
           }
         ]
@@ -129,6 +130,6 @@ module.exports = {
       { from: 'src/data', to: 'data'}
     ]),
 
-    new HotModuleReplacementPlugin(),
+    new HotModuleReplacementPlugin()
   ]
 };
