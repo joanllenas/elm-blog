@@ -55,7 +55,7 @@ page model =
         Models.PostDetailRoute postId ->
             div []
                 [ createMenu
-                , Post.Detail.view model.posts postId
+                , Post.Detail.view model.post
                 ]
 
         Models.NotFoundRoute ->

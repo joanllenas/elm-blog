@@ -21,5 +21,8 @@ update msg model =
         Msgs.OnFetchPosts response ->
             ( { model | posts = response }, Cmd.none )
 
+        Msgs.OnFetchPost response ->
+            ( { model | post = response }, Cmd.none )
+
         Msgs.NoOp ->
             ( model, Cmd.none )

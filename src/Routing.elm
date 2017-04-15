@@ -33,7 +33,7 @@ getRouteInitCmd route =
             Commands.fetchLatestsPosts
 
         PostDetailRoute postId ->
-            Commands.fetchLatestsPosts
+            Commands.fetchPost postId
 
         NotFoundRoute ->
             Cmd.none

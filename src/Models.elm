@@ -18,6 +18,7 @@ type alias Post =
 
 type alias Model =
     { posts : WebData (List Post)
+    , post : WebData Post
     , route : Route
     }
 
@@ -31,5 +32,6 @@ type Route
 initialModel : Route -> Model
 initialModel route =
     { posts = RemoteData.NotAsked
+    , post = RemoteData.NotAsked
     , route = route
     }

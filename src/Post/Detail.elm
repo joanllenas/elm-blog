@@ -1,22 +1,10 @@
-module Post.Detail exposing (..)
+module Post.Detail exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (class, href)
-import List.Extra exposing (find)
 import RemoteData exposing (..)
 import Msgs exposing (Msg)
-import Utils exposing (stringToDate)
 import Models exposing (Post, PostId)
-
-
-createPostDetailPage : Maybe Post -> Html Msg
-createPostDetailPage post =
-    case post of
-        Nothing ->
-            createPostDetail (Post "" (stringToDate "") "Post not found" "The requested post does not exists.")
-
-        Just post ->
-            createPostDetail post
 
 
 createPostDetail : Post -> Html Msg
@@ -33,17 +21,8 @@ createPostDetail post =
         ]
 
 
-view2 : List Post -> PostId -> Html Msg
-view2 posts postId =
-    let
-        maybePost =
-            find (\post -> postId == post.id) posts
-    in
-        div [] [ createPostDetailPage maybePost ]
-
-
-view : WebData (List Post) -> PostId -> Html Msg
-view response postId =
+view : WebData Post -> Html Msg
+view response =
     case response of
         RemoteData.NotAsked ->
             text "---"
@@ -51,8 +30,8 @@ view response postId =
         RemoteData.Loading ->
             text "Loading..."
 
-        RemoteData.Success posts ->
-            view2 posts postId
+        RemoteData.Success post ->
+            div [ class "content-container" ] [ createPostDetail post ]
 
         RemoteData.Failure error ->
             text (toString error)
