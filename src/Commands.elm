@@ -1,20 +1,33 @@
-module Commands exposing (fetchLatestsPosts, fetchPost)
+module Commands
+    exposing
+        ( fetchLatestsPosts
+        , fetchPostArchive
+        , fetchPost
+        )
 
 import Http
-import Time
-import Task
 import RemoteData
 import Msgs exposing (Msg)
 import Models exposing (PostId)
 import Utils
-import Decoders exposing (postListDecoder, postDecoder)
+import Decoders
+    exposing
+        ( postListDecoder
+        , postDecoder
+        )
 
 
 fetchLatestsPosts : Cmd Msg
 fetchLatestsPosts =
     Http.get fetchLatestsPostsUrl postListDecoder
         |> RemoteData.sendRequest
-        |> Cmd.map Msgs.OnFetchPosts
+        |> Cmd.map Msgs.OnFetchLatestPosts
+
+
+fetchLatestsPostsUrl : String
+fetchLatestsPostsUrl =
+    {- Time.now `andThen` (\time -> "data/latest.json?" ++ time) -}
+    "data/latest.json?"
 
 
 fetchPost : PostId -> Cmd Msg
@@ -22,12 +35,6 @@ fetchPost postId =
     Http.get (fetchPostUrl postId) postDecoder
         |> RemoteData.sendRequest
         |> Cmd.map Msgs.OnFetchPost
-
-
-fetchLatestsPostsUrl : String
-fetchLatestsPostsUrl =
-    {- Time.now `andThen` (\time -> "data/latest.json?" ++ time) -}
-    "data/latest.json?"
 
 
 fetchPostUrl : PostId -> String
@@ -44,3 +51,15 @@ fetchPostUrl postId =
             Utils.stringDateToMonth dateString
     in
         "data/" ++ year ++ "/" ++ month ++ "/" ++ postId ++ ".json"
+
+
+fetchPostArchive : Cmd Msg
+fetchPostArchive =
+    Http.get fetchPostArchiveUrl postListDecoder
+        |> RemoteData.sendRequest
+        |> Cmd.map Msgs.OnFetchPostArchive
+
+
+fetchPostArchiveUrl : String
+fetchPostArchiveUrl =
+    "data/archive.json?"

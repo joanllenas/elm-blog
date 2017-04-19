@@ -1,7 +1,17 @@
-module Decoders exposing (postDecoder, postListDecoder, stringDateDecoder)
+module Decoders
+    exposing
+        ( postDecoder
+        , postListDecoder
+        , stringDateDecoder
+        )
 
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, required)
+import Json.Decode.Pipeline
+    exposing
+        ( decode
+        , required
+        , optional
+        )
 import Models exposing (PostId, Post)
 import Date
 import Models exposing (Post)
@@ -18,7 +28,7 @@ postDecoder =
         |> required "id" Decode.string
         |> required "created_at" stringDateDecoder
         |> required "title" Decode.string
-        |> required "content" Decode.string
+        |> optional "content" Decode.string ""
 
 
 stringDateDecoder : Decoder Date.Date

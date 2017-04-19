@@ -46,16 +46,22 @@ view model =
 page : Model -> Html Msg
 page model =
     case model.route of
-        Models.PostListRoute ->
+        Models.LatestPostRoute ->
             div []
                 [ createMenu
-                , Post.List.view model.posts
+                , Post.List.view model.latest
                 ]
 
         Models.PostDetailRoute postId ->
             div []
                 [ createMenu
                 , Post.Detail.view model.post
+                ]
+
+        Models.PostArchiveRoute ->
+            div []
+                [ createMenu
+                , Post.List.view model.archive
                 ]
 
         Models.NotFoundRoute ->

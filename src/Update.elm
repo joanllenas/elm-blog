@@ -18,8 +18,11 @@ update msg model =
             in
                 ( { model | route = newRoute }, routeCmd )
 
-        Msgs.OnFetchPosts response ->
-            ( { model | posts = response }, Cmd.none )
+        Msgs.OnFetchLatestPosts response ->
+            ( { model | latest = response }, Cmd.none )
+
+        Msgs.OnFetchPostArchive response ->
+            ( { model | archive = response }, Cmd.none )
 
         Msgs.OnFetchPost response ->
             ( { model | post = response }, Cmd.none )

@@ -17,21 +17,24 @@ type alias Post =
 
 
 type alias Model =
-    { posts : WebData (List Post)
+    { latest : WebData (List Post)
+    , archive : WebData (List Post)
     , post : WebData Post
     , route : Route
     }
 
 
 type Route
-    = PostListRoute
+    = LatestPostRoute
+    | PostArchiveRoute
     | PostDetailRoute PostId
     | NotFoundRoute
 
 
 initialModel : Route -> Model
 initialModel route =
-    { posts = RemoteData.NotAsked
+    { latest = RemoteData.NotAsked
+    , archive = RemoteData.NotAsked
     , post = RemoteData.NotAsked
     , route = route
     }

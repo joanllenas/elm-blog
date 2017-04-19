@@ -10,9 +10,10 @@ import Msgs exposing (Msg)
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
-        [ map PostListRoute top
+        [ map LatestPostRoute top
         , map PostDetailRoute (s "post" </> string)
-        , map PostListRoute (s "all")
+        , map LatestPostRoute (s "all")
+        , map PostArchiveRoute (s "archive")
         ]
 
 
@@ -29,11 +30,14 @@ parseLocation location =
 getRouteInitCmd : Route -> Cmd Msg
 getRouteInitCmd route =
     case route of
-        PostListRoute ->
+        LatestPostRoute ->
             Commands.fetchLatestsPosts
 
         PostDetailRoute postId ->
             Commands.fetchPost postId
+        
+        PostArchiveRoute ->
+            Commands.fetchPostArchive
 
         NotFoundRoute ->
             Cmd.none
