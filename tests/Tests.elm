@@ -21,4 +21,7 @@ all =
         , test "This test should fail" <|
             \() ->
                 Expect.fail "failed as expected!"
+        , test "Convert post to " <|
+            \() ->
+                Expect.fail "failed as expected!"
         ]

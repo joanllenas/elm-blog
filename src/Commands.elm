@@ -10,6 +10,7 @@ import RemoteData
 import Msgs exposing (Msg)
 import Models exposing (PostId)
 import Utils
+import Tuple
 import Decoders
     exposing
         ( postListDecoder
@@ -40,15 +41,8 @@ fetchPost postId =
 fetchPostUrl : PostId -> String
 fetchPostUrl postId =
     let
-        dateString =
-            List.head (String.split "-" postId)
-                |> Maybe.withDefault "0"
-
-        year =
-            Utils.stringDateToYear dateString
-
-        month =
-            Utils.stringDateToMonth dateString
+        (year, month) =
+            Utils.postIdToYearMonth postId
     in
         "data/" ++ year ++ "/" ++ month ++ "/" ++ postId ++ ".json"
 

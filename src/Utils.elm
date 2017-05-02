@@ -34,3 +34,19 @@ stringDateToMonth dateString =
         |> Date.month
         |> toString
         |> String.toLower
+
+
+postIdToYearMonth : String -> ( String, String )
+postIdToYearMonth postId =
+    let
+        dateString =
+            List.head (String.split "-" postId)
+                |> Maybe.withDefault "0"
+
+        year =
+            stringDateToYear dateString
+
+        month =
+            stringDateToMonth dateString
+    in
+        ( year, month )

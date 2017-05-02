@@ -7,42 +7,52 @@ import Msgs exposing (Msg)
 import Models exposing (Post)
 import Maybe
 import Tuple
-import Utils exposing (humanizeDate)
+import Dict
+import Utils exposing (..)
 
 
-createPostEntry : Post -> Html Msg
-createPostEntry post =
-    section [ class "post-excerpt" ]
-        [ div [ class "row" ]
-            [ div [ class "twelve columns" ]
-                [ h1 []
-                    [ a [ href ("#post/" ++ post.id) ]
-                        [ text post.title ]
-                    ]
-                ]
-            , div [ class "twelve columns" ]
-                [ p [ class "meta" ]
-                    [ text (humanizeDate (Maybe.Just post.created_at))
-                    ]
-                ]
-            ]
-        , div [ class "row" ]
-            [ div [ class "twelve columns" ]
-                [ p []
-                    [ text post.content ]
-                ]
-            ]
-        ]
+printArchive : List PostWrapper -> Html Msg
+printArchive posts =
+    div [] (List.map (\post -> text post.year) posts)
 
 
-buildArchive : ( List Post, List Post ) -> ( List Post, List Post )
-buildArchive tuple =
-    case Tuple.first tuple of
-        [] ->
-            ( [], [] )
+type alias PostWrapper =
+    { year : String
+    , month : String
+    , post : Post
+    }
 
-        hd :: tl ->
-            buildArchive ( tl, Tuple.second tuple ++ [ hd ] )
+
+buildArchive : List Post -> List PostWrapper
+buildArchive posts =
+    posts
+        |> List.map
+            (\post ->
+                let
+                    ( year, month ) =
+                        Utils.postIdToYearMonth post.id
+                in
+                    PostWrapper year month post
+            )
+        |> List.sortWith
+            (\pa pb ->
+                let
+                    a =
+                        Result.withDefault 0 (String.toInt pa.year)
+
+                    b =
+                        Result.withDefault 0 (String.toInt pb.year)
+                in
+                    case compare a b of
+                        LT ->
+                            GT
+
+                        EQ ->
+                            EQ
+
+                        GT ->
+                            LT
+            )
 
 
 view : WebData (List Post) -> Html Msg
@@ -57,9 +67,9 @@ view response =
         RemoteData.Success posts ->
             let
                 postArchive =
-                    buildArchive ( posts, [] )
+                    buildArchive posts
             in
-                div [ class "content-container" ] (List.map createPostEntry (Tuple.second postArchive))
+                div [ class "content-container" ] [ printArchive postArchive ]
 
         RemoteData.Failure error ->
             text (toString error)
