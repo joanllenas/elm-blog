@@ -11,9 +11,18 @@ import Dict
 import Utils exposing (..)
 
 
+printPost : PostWrapper -> Html Msg
+printPost { year, month, post } =
+    div []
+        [ div [] [ text (year ++ " - " ++ month) ]
+        , div [] [ text post.title ]
+        , div [] [ text post.content ]
+        ]
+
+
 printArchive : List PostWrapper -> Html Msg
 printArchive posts =
-    div [] (List.map (\post -> text post.year) posts)
+    div [] (List.map (\post -> printPost post) posts)
 
 
 type alias PostWrapper =
