@@ -16,7 +16,6 @@ printPost { year, month, post } =
     div []
         [ div [] [ text (year ++ " - " ++ month) ]
         , div [] [ text post.title ]
-        , div [] [ text post.content ]
         ]
 
 
