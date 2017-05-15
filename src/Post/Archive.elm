@@ -3,64 +3,91 @@ module Post.List exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (class, href)
 import RemoteData exposing (..)
+import Date.Extra.Core as DateCore
 import Msgs exposing (Msg)
 import Models exposing (Post)
 import Maybe
 import Tuple
-import Dict
+import Dict exposing (Dict)
 import Utils exposing (..)
+
+
+printYear : String -> Html Msg
+printYear year =
+    h2 [] [ text year ]
+
+
+printMonth : String -> Html Msg
+printMonth month =
+    h3 [] [ text month ]
 
 
 printPost : PostWrapper -> Html Msg
 printPost { year, month, post } =
-    div []
-        [ div [] [ text (year ++ " - " ++ month) ]
-        , div [] [ text post.title ]
-        ]
-
-
-printArchive : List PostWrapper -> Html Msg
-printArchive posts =
-    div [] (List.map (\post -> printPost post) posts)
+    let
+        m =
+            DateCore.intToMonth (month + 1)
+    in
+        div []
+            [ div [] [ text ((toString year) ++ " - " ++ (toString m)) ]
+            , div [] [ text post.title ]
+            ]
 
 
 type alias PostWrapper =
-    { year : String
-    , month : String
+    { year : Int
+    , month : Int
     , post : Post
     }
 
 
-buildArchive : List Post -> List PostWrapper
-buildArchive posts =
-    posts
-        |> List.map
-            (\post ->
+buildArchiveByYear : List Post -> Dict Int (List PostWrapper)
+buildArchiveByYear posts =
+    let
+        wrappedPosts =
+            List.map
+                (\post ->
+                    let
+                        ( year, month ) =
+                            Utils.postIdToYearMonth2 post.id
+
+                        y =
+                            (Result.withDefault 0 (String.toInt year))
+
+                        m =
+                            DateCore.monthToInt month
+                    in
+                        PostWrapper y m post
+                )
+                posts
+    in
+        Utils.groupBy (\pw -> pw.year) wrappedPosts
+
+
+printArchive : List Post -> List (Html Msg)
+printArchive posts =
+    let
+        postsByYear : Dict Int (List PostWrapper)
+        postsByYear =
+            buildArchiveByYear posts
+
+        years =
+            List.reverse (Dict.keys postsByYear)
+    in
+        List.map
+            (\year ->
                 let
-                    ( year, month ) =
-                        Utils.postIdToYearMonth post.id
+                    yearPosts : List PostWrapper
+                    yearPosts =
+                        Dict.get year postsByYear
+                            |> Maybe.withDefault []
                 in
-                    PostWrapper year month post
+                    div []
+                        [ printYear (toString year)
+                        , div [] (List.map printPost yearPosts)
+                        ]
             )
-        |> List.sortWith
-            (\pa pb ->
-                let
-                    a =
-                        Result.withDefault 0 (String.toInt pa.year)
-
-                    b =
-                        Result.withDefault 0 (String.toInt pb.year)
-                in
-                    case compare a b of
-                        LT ->
-                            GT
-
-                        EQ ->
-                            EQ
-
-                        GT ->
-                            LT
-            )
+            years
 
 
 view : WebData (List Post) -> Html Msg
@@ -73,11 +100,7 @@ view response =
             text "Loading..."
 
         RemoteData.Success posts ->
-            let
-                postArchive =
-                    buildArchive posts
-            in
-                div [ class "content-container" ] [ printArchive postArchive ]
+            div [ class "content-container" ] (printArchive posts)
 
         RemoteData.Failure error ->
             text (toString error)

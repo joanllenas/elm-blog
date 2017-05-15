@@ -11,7 +11,7 @@ all =
     describe "A Test Suite"
         [ test "App.model.message should be set properly" <|
             \() ->
-                Expect.equal (Tuple.first (App.init  "../src/logo.svg") |> .message) "Your Elm App is working!"
+                Expect.equal (Tuple.first (App.init "../src/logo.svg") |> .message) "Your Elm App is working!"
         , test "Addition" <|
             \() ->
                 Expect.equal (3 + 7) 10
@@ -19,9 +19,6 @@ all =
             \() ->
                 Expect.equal "a" (String.left 1 "abcdefg")
         , test "This test should fail" <|
-            \() ->
-                Expect.fail "failed as expected!"
-        , test "Convert post to " <|
             \() ->
                 Expect.fail "failed as expected!"
         ]
