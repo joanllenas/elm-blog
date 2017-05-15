@@ -12,26 +12,44 @@ import Dict exposing (Dict)
 import Utils exposing (..)
 
 
-printYear : String -> Html Msg
-printYear year =
-    h2 [] [ text year ]
-
-
-printMonth : String -> Html Msg
+printMonth : Int -> Html Msg
 printMonth month =
-    h3 [] [ text month ]
-
-
-printPost : PostWrapper -> Html Msg
-printPost { year, month, post } =
     let
         m =
             DateCore.intToMonth (month + 1)
     in
-        div []
-            [ div [] [ text ((toString year) ++ " - " ++ (toString m)) ]
-            , div [] [ text post.title ]
-            ]
+        text (toString m)
+
+
+printPost : PostWrapper -> Html Msg
+printPost { year, month, post } =
+    li []
+        [ a [ href ("#post/" ++ post.id) ] [ text post.title ] ]
+
+
+printYearPosts : List PostWrapper -> List (Html Msg)
+printYearPosts yearPosts =
+    let
+        postsByMonth =
+            Utils.groupBy (\pw -> pw.month) yearPosts
+
+        months =
+            List.reverse (Dict.keys postsByMonth)
+    in
+        List.map
+            (\month ->
+                let
+                    monthPosts : List PostWrapper
+                    monthPosts =
+                        Dict.get month postsByMonth
+                            |> Maybe.withDefault []
+                in
+                    li []
+                        [ printMonth month
+                        , ul [] (List.map printPost monthPosts)
+                        ]
+            )
+            months
 
 
 type alias PostWrapper =
@@ -83,8 +101,8 @@ printArchive posts =
                             |> Maybe.withDefault []
                 in
                     div []
-                        [ printYear (toString year)
-                        , div [] (List.map printPost yearPosts)
+                        [ h2 [] [ text (toString year) ]
+                        , ul [] (printYearPosts yearPosts)
                         ]
             )
             years
@@ -94,7 +112,7 @@ view : WebData (List Post) -> Html Msg
 view response =
     case response of
         RemoteData.NotAsked ->
-            text "---"
+            text "Waiting..."
 
         RemoteData.Loading ->
             text "Loading..."
