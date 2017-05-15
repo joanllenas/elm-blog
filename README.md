@@ -1,4 +1,6 @@
 # Elm Blog
+A blog made with [Elm](http://elm-lang.org/), just for fun.
+
 ## Milestones
 
 ### `v1.0`
